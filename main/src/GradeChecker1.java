@@ -1,9 +1,13 @@
 import java.io.*;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
 class GradeChecker1 {
+    Map<String, Integer>  gradeMap = new HashMap<>();
+
+    // read method
     Map<Integer, Double> getMapFromExamFile(String filename) {
         try {
             HashMap<Integer, Double> map = new HashMap<>();
@@ -67,21 +71,54 @@ class GradeChecker1 {
         }
         return count;
     }
+
+    // each calc
+    List<Double> passingList = new ArrayList<>();
+    List<Double> allList = new ArrayList<>();
     Double calcScore(Double e, Double a, Double t) {
         return Math.ceil((70.0/100.0)*e + (25.0/60.0)*a + 5.0*t);
     }
     String  getGrade(Double examScore) {
+        allList.add(examScore);
         if (examScore >= 90.0) {
+            gradeMap.put("秀", gradeMap.getOrDefault("秀", 0) + 1);
+            passingList.add(examScore);
             return "秀";
         } else if( 90.0 > examScore && examScore >= 80.0) {
+            gradeMap.put("優", gradeMap.getOrDefault("優", 0) + 1);
+            passingList.add(examScore);
             return "優";
         } else if( 80.0 > examScore && examScore >= 70.0) {
+            gradeMap.put("良", gradeMap.getOrDefault("良", 0) + 1);
+            passingList.add(examScore);
             return "良";
         } else if( 70.0 > examScore && examScore >= 60.0) {
+            gradeMap.put("可", gradeMap.getOrDefault("可", 0) + 1);
+            passingList.add(examScore);
             return "可";
         } else {
+            gradeMap.put("不可", gradeMap.getOrDefault("不可", 0) + 1);
             return "不可";
         }
+    }
+    EachNumbers createEachNumbers(List<Double> list) {
+        Double max = 0.0;
+        Double min = Double.MAX_VALUE;
+        Double sum = 0.0;
+        for (Double num: list) {
+            max = Math.max(max, num);
+            min = Math.min(min, num);
+            sum += num;
+        }
+        return new EachNumbers(max, min, sum / list.size());
+    }
+    void printEachNumbers() {
+        EachNumbers all = createEachNumbers(allList);
+        EachNumbers passing = createEachNumbers(passingList);
+
+        System.out.printf("Avg: %f (%f)\n", all.avg, passing.avg);
+        System.out.printf("Max: %f (%f)\n", all.max, passing.max);
+        System.out.printf("Min: %f (%f)\n", all.min, passing.min);
     }
     void calcEachIdScore(Map<Integer, Double> examMap, Map<Integer, Double> assignMap, Map<Integer, Double> miniexamMap) {
         for (int i = 1; i < assignMap.keySet().size() + 1; i++) {
@@ -90,10 +127,16 @@ class GradeChecker1 {
             Double miniexamScore = miniexamMap.getOrDefault(i, 0.0);
             Double score = calcScore(examScore, assignScore, miniexamScore);
             if (examMap.get(i) == null) {
+                allList.add(score);
+                gradeMap.put("K", gradeMap.getOrDefault("K", 0) + 1);
                 System.out.printf("%d, %f, , %f, %f, K\n", i, score, assignScore, miniexamScore);
             } else {
-                System.out.printf("%d, %f, %f, %f, %f, %s\n", i, score, examScore, assignScore, miniexamScore, getGrade(examScore));
+                System.out.printf("%d, %f, %f, %f, %f, %s\n", i, score, examScore, assignScore, miniexamScore, getGrade(score));
             }
+        }
+
+        for (String str: gradeMap.keySet()) {
+            System.out.printf("%s: %d\n", str, gradeMap.get(str));
         }
     }
     void run(String file1, String file2, String file3){
