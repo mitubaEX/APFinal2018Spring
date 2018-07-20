@@ -78,25 +78,28 @@ class GradeChecker1 {
     Double calcScore(Double e, Double a, Double t) {
         return Math.ceil((70.0/100.0)*e + (25.0/60.0)*a + 5.0*t);
     }
-    String  getGrade(Double examScore) {
-        allList.add(examScore);
-        if (examScore >= 90.0) {
+    String  getGrade(Double score, Double examScore, Double miniexam) {
+        allList.add(score);
+        if (score >= 90.0) {
             gradeMap.put("秀", gradeMap.getOrDefault("秀", 0) + 1);
-            passingList.add(examScore);
+            passingList.add(score);
             return "秀";
-        } else if( 90.0 > examScore && examScore >= 80.0) {
+        } else if( 90.0 > score && score >= 80.0) {
             gradeMap.put("優", gradeMap.getOrDefault("優", 0) + 1);
-            passingList.add(examScore);
+            passingList.add(score);
             return "優";
-        } else if( 80.0 > examScore && examScore >= 70.0) {
+        } else if( 80.0 > score && score >= 70.0) {
             gradeMap.put("良", gradeMap.getOrDefault("良", 0) + 1);
-            passingList.add(examScore);
+            passingList.add(score);
             return "良";
-        } else if( 70.0 > examScore && examScore >= 60.0) {
+        } else if( 70.0 > score && score >= 60.0) {
             gradeMap.put("可", gradeMap.getOrDefault("可", 0) + 1);
-            passingList.add(examScore);
+            passingList.add(score);
             return "可";
-        } else {
+        }  else if (score < 60 && miniexam * 14.0 <= 7.0) {
+            gradeMap.put("＊", gradeMap.getOrDefault("＊", 0) + 1);
+            return "＊";
+        }  else {
             gradeMap.put("不可", gradeMap.getOrDefault("不可", 0) + 1);
             return "不可";
         }
@@ -126,14 +129,28 @@ class GradeChecker1 {
             Double assignScore = assignMap.get(i);
             Double miniexamScore = miniexamMap.getOrDefault(i, 0.0);
             Double score = calcScore(examScore, assignScore, miniexamScore);
+            if (Math.ceil(examScore) >= 80.0) {
+                System.out.println(Math.ceil(examScore) + " " + score);
+                if (Math.ceil(examScore) >= score) {
+                    score = examScore;
+                }
+                System.out.println(Math.ceil(examScore) + " " + score);
+            }
+//            if (examScore >= 79.0) {
+//                if (Math.ceil(examScore) >= score) {
+//                    score = Math.ceil(examScore);
+//                }
+//            }
             if (examMap.get(i) == null) {
                 allList.add(score);
                 gradeMap.put("K", gradeMap.getOrDefault("K", 0) + 1);
                 System.out.printf("%d, %f, , %f, %f, K\n", i, score, assignScore, miniexamScore);
             } else {
-                System.out.printf("%d, %f, %f, %f, %f, %s\n", i, score, examScore, assignScore, miniexamScore, getGrade(score));
+                System.out.printf("%d, %f, %f, %f, %f, %s\n", i, score, examScore, assignScore, miniexamScore, getGrade(score, examScore, miniexamScore));
             }
         }
+
+        printEachNumbers();
 
         for (String str: gradeMap.keySet()) {
             System.out.printf("%s: %d\n", str, gradeMap.get(str));
