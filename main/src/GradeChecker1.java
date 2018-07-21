@@ -1,8 +1,5 @@
 import java.io.*;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 class GradeChecker1 {
     Map<String, Integer>  gradeMap = new HashMap<>();
@@ -130,17 +127,10 @@ class GradeChecker1 {
             Double miniexamScore = miniexamMap.getOrDefault(i, 0.0);
             Double score = calcScore(examScore, assignScore, miniexamScore);
             if (Math.ceil(examScore) >= 80.0) {
-                System.out.println(Math.ceil(examScore) + " " + score);
                 if (Math.ceil(examScore) >= score) {
-                    score = examScore;
+                    score = Math.ceil(examScore);
                 }
-                System.out.println(Math.ceil(examScore) + " " + score);
             }
-//            if (examScore >= 79.0) {
-//                if (Math.ceil(examScore) >= score) {
-//                    score = Math.ceil(examScore);
-//                }
-//            }
             if (examMap.get(i) == null) {
                 allList.add(score);
                 gradeMap.put("K", gradeMap.getOrDefault("K", 0) + 1);
@@ -152,7 +142,7 @@ class GradeChecker1 {
 
         printEachNumbers();
 
-        for (String str: gradeMap.keySet()) {
+        for (String str: Arrays.asList("秀", "優", "良", "可", "不可", "K", "＊")) {
             System.out.printf("%s: %d\n", str, gradeMap.get(str));
         }
     }
