@@ -15,8 +15,8 @@
       <file leaf-file-name="GradeChecker1.java" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/main/src/GradeChecker1.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="657">
-              <caret line="166" column="42" selection-start-line="166" selection-start-column="42" selection-end-line="166" selection-end-column="42" />
+            <state relative-caret-position="522">
+              <caret line="157" column="36" selection-start-line="157" selection-start-column="36" selection-end-line="157" selection-end-column="36" />
               <folding>
                 <element signature="imports" expanded="true" />
                 <element signature="e#2680#2681#0" expanded="true" />
@@ -264,7 +264,6 @@
   </component>
   <component name="ToolWindowManager">
     <frame x="2510" y="-425" width="1490" height="837" extended-state="0" />
-    <editor active="true" />
     <layout>
       <window_info anchor="right" id="Palette" order="3" />
       <window_info anchor="bottom" id="TODO" order="6" />
@@ -507,8 +506,8 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/main/src/GradeChecker1.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="657">
-          <caret line="166" column="42" selection-start-line="166" selection-start-column="42" selection-end-line="166" selection-end-column="42" />
+        <state relative-caret-position="522">
+          <caret line="157" column="36" selection-start-line="157" selection-start-column="36" selection-end-line="157" selection-end-column="36" />
           <folding>
             <element signature="imports" expanded="true" />
             <element signature="e#2680#2681#0" expanded="true" />
