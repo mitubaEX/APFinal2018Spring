@@ -1,3 +1,8 @@
+import domain.reader.AssignmentsFileReader;
+import domain.reader.ExamFileReader;
+import domain.reader.MiniexamFileReader;
+import domain.service.ReadService;
+
 import java.io.*;
 import java.util.*;
 
@@ -147,9 +152,16 @@ class GradeChecker1 {
         }
     }
     void run(String file1, String file2, String file3){
-        Map<Integer, Double> examMap = getMapFromExamFile(file1);
-        Map<Integer, Double> assignMap = getMapFromAssignFile(file2);
-        Map<Integer, Double> miniexamMap = getMapFromMiniexamFile(file3);
+        ExamFileReader examFileReader = new ExamFileReader();
+        AssignmentsFileReader assignmentsFileReader = new AssignmentsFileReader();
+        MiniexamFileReader miniexamFileReader = new MiniexamFileReader();
+        ReadService readService = new ReadService();
+        Map<Integer, Double> examMap = readService.read(examFileReader, file1);
+        Map<Integer, Double> assignMap = readService.read(assignmentsFileReader, file2);
+        Map<Integer, Double> miniexamMap = readService.read(miniexamFileReader, file3);
+//        Map<Integer, Double> examMap = getMapFromExamFile(file1);
+//        Map<Integer, Double> assignMap = getMapFromAssignFile(file2);
+//        Map<Integer, Double> miniexamMap = getMapFromMiniexamFile(file3);
         calcEachIdScore(examMap, assignMap, miniexamMap);
     }
     public static void main(String[] args){
